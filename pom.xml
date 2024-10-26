@@ -10,7 +10,7 @@
     </parent>
     <groupId>tn.esprit.spring</groupId>
     <artifactId>kaddem</artifactId>
-    <version>0.0.3</version> <!-- Change to 0.0.3 -->
+    <version>0.0.3</version>
     <name>kaddem</name>
     <description>kaddem</description>
     <properties>
@@ -49,6 +49,7 @@
 
     <build>
         <plugins>
+            <!-- Spring Boot Plugin -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
@@ -60,6 +61,29 @@
                         </exclude>
                     </excludes>
                 </configuration>
+            </plugin>
+
+            <!-- Jacoco Plugin for Code Coverage -->
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.8</version>
+                <executions>
+                    <!-- Run Jacoco during the test phase to prepare for coverage -->
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <!-- Generate coverage report after tests run -->
+                    <execution>
+                        <id>report</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
