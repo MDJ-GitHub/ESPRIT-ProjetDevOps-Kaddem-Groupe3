@@ -1,11 +1,12 @@
 package tn.esprit.spring.kaddem.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.util.Set;
 
-import javax.persistence.*;
+
 
 @Entity
 public class Equipe implements Serializable{

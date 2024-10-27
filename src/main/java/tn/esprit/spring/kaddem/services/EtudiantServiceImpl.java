@@ -1,5 +1,6 @@
 package tn.esprit.spring.kaddem.services;
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +15,6 @@ import tn.esprit.spring.kaddem.repositories.DepartementRepository;
 import tn.esprit.spring.kaddem.repositories.EquipeRepository;
 import tn.esprit.spring.kaddem.repositories.EtudiantRepository;
 
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Set;
 

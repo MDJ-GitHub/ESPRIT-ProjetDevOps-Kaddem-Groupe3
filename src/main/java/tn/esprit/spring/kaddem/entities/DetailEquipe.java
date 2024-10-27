@@ -1,8 +1,9 @@
 package tn.esprit.spring.kaddem.entities;
 
+import jakarta.persistence.*;
+
 import java.io.Serializable;
 
-import javax.persistence.*;
 
 @Entity
 public class DetailEquipe implements Serializable{
