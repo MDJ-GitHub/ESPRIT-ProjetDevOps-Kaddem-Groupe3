@@ -8,7 +8,7 @@ pipeline {
         PROJECT_FRONT_NAME = 'kaddem-front'
         DOCKER_IMAGE_BACK = 'mdjdocker/kaddem-back'
         DOCKER_IMAGE_FRONT = 'mdjdocker/kaddem-front'
-        GITHUB_REPO = 'https://github.com/MDJ-GitHub/ESPRIT-ProjetDevOps-Kaddem-Front-Groupe3.git'
+        GITHUB_REPO = 'https://github.com/MDJ-GitHub/ESPRIT-ProjetDevOps-Kaddem-Groupe3.git'
     }
     stages {
         stage('1/5 | Install Builders (Maven & NodeJS)') {
