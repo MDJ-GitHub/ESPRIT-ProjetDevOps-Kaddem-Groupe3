@@ -31,7 +31,7 @@ pipeline {
                         '''
                         echo 'NodeJS installed successfully.'
                     }
-                    if (sh(returnStatus: true, script: 'java -version 2>&1 | grep "1.8"') != 0) {
+                    if (!fileExists("${JAVA_8_HOME}")) {
                         echo 'Java 1.8 is not installed. Proceeding with installation.'
                         sh '''
                             sudo apt update
