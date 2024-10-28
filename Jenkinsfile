@@ -13,7 +13,6 @@ pipeline {
         stage('1/5 | Install Builders (Maven, NodeJS, and Java 1.8)') {
             steps {
                 script {
-                    // Check and install Maven
                     if (sh(returnStatus: true, script: 'which mvn') != 0) {
                         echo 'Maven is not installed. Proceeding with installation.'
                         sh '''
@@ -22,8 +21,6 @@ pipeline {
                         '''
                         echo 'Maven installed successfully.'
                     }
-
-                    // Check and install NodeJS and Angular CLI
                     if (sh(returnStatus: true, script: 'which nodejs') != 0) {
                         echo 'NodeJS is not installed. Proceeding with installation.'
                         sh '''
@@ -34,8 +31,6 @@ pipeline {
                         '''
                         echo 'NodeJS installed successfully.'
                     }
-
-                    // Check and install Java 1.8
                     if (sh(returnStatus: true, script: 'java -version 2>&1 | grep "1.8"') != 0) {
                         echo 'Java 1.8 is not installed. Proceeding with installation.'
                         sh '''
@@ -57,16 +52,14 @@ pipeline {
         stage('3/5 | Building Project') {
             steps {
                 script {
-                    // Set JAVA_HOME temporarily to Java 1.8 for the Maven build
+                    echo 'Building the backend of the project (SpringBoot/Maven)'
                     env.JAVA_HOME = "${JAVA_8_HOME}"
                     env.PATH = "${JAVA_HOME}/bin:${env.PATH}"
-
-                    echo 'Building the backend of the project (SpringBoot/Maven)'
-                    sh 'java -version' // Confirm Java 1.8 is used
+                    sh 'java -version'
                     sh 'mvn clean package'
-
                     echo 'Building the frontend of the project (Angular/NodeJS)'
                     dir('front') {
+                        sh 'sudo npm install'
                         sh 'ng build --configuration production'
                     }
                 }
