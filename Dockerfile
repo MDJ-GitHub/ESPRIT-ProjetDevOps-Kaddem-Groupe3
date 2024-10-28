@@ -1,4 +1,4 @@
 FROM openjdk:17-jdk-alpine
-WORKDIR /app
-COPY target/Kaddem-0.0.1-SNAPSHOT.jar app.jar
-ENTRYPOINT ["java", "-jar", "app.jar"]
+EXPOSE 8089
+ADD target/kaddem-0.0.7.jar kaddem-0.0.7.jar
+ENTRYPOINT ["java","-jar","/kaddem-0.0.7.jar"]
