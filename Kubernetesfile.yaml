@@ -1,0 +1,152 @@
+  # Esprit DevOps Project Kaddem Group3 Kubernetesfile
+
+# Database Persistent Volume
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: kaddem-pv-db
+  labels:
+    app: label-kaddem-pv-db
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: /mnt/data/kaddem-db/mysql
+
+---
+
+# Database Persistent Volume Claim
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: kaddem-pvc-db
+  labels:
+    app: label-kaddem-pvc-db
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+
+---
+
+# Backend + Database Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kaddem-dep-db-back
+  labels:
+    app: label-kaddem-dep-db-back
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: label-kaddem-dep-db-back
+  template:
+    metadata:
+      labels:
+        app: label-kaddem-dep-db-back
+    spec:
+      initContainers:
+      - name: init-permissions
+        image: busybox
+        command: ['sh', '-c', 'chown -R 999:999 /var/lib/mysql']
+        volumeMounts:
+        - name: kaddem-vol-db
+          mountPath: /var/lib/mysql
+      containers:
+      - name: kaddem-dep-db
+        image: mysql
+        env:
+          - name: MYSQL_ROOT_PASSWORD
+            value: "root"
+        ports:
+        - containerPort: 3306
+          name: cport-3306
+        volumeMounts:
+        - name: kaddem-vol-db
+          mountPath: /var/lib/mysql
+      - name: kaddem-dep-back
+        image: mdjdocker/kaddem-back:latest
+        ports:
+        - containerPort: 8089
+          name: cport-8089
+        livenessProbe:
+          tcpSocket:
+            port: 3306
+          initialDelaySeconds: 5
+          periodSeconds: 20
+          failureThreshold: 3
+      restartPolicy: Always
+      volumes:
+      - name: kaddem-vol-db
+        persistentVolumeClaim:
+          claimName: kaddem-pvc-db
+
+---
+
+# Backend Service NodePort
+apiVersion: v1
+kind: Service
+metadata:
+  name: kaddem-nser-back
+  labels:
+    app: label-kaddem-nser-back
+spec:
+  selector:
+    app: label-kaddem-dep-db-back
+  ports:
+  - port: 8089
+    name: port-8089
+    targetPort: 8089
+    nodePort: 30001
+  type: NodePort
+
+---
+
+# Frontend Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kaddem-dep-front
+  labels:
+    app: label-kaddem-dep-front
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: label-kaddem-dep-front
+  template:
+    metadata:
+      labels:
+        app: label-kaddem-dep-front
+    spec:
+      containers:
+      - name: kaddem-front
+        image: mdjdocker/kaddem-front:latest
+        ports:
+        - containerPort: 80
+          name: cport-80
+      restartPolicy: Always
+
+---
+
+# Frontend Service NodePort
+apiVersion: v1
+kind: Service
+metadata:
+  name: kaddem-nser-front
+  labels:
+    app: label-kaddem-nser-front
+spec:
+  selector:
+    app: label-kaddem-dep-front
+  ports:
+  - port: 80
+    name: port-80
+    targetPort: 80
+    nodePort: 30002
+  type: NodePort
