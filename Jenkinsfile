@@ -6,7 +6,7 @@ pipeline {
         PROJECT_FRONT_NAME = 'kaddem-front'
         DOCKER_IMAGE_BACK = 'mdjdocker/kaddem-back'
         DOCKER_IMAGE_FRONT = 'mdjdocker/kaddem-front'
-        GITHUB_REPO = 'https://github.com/MDJ-GitHub/ESPRIT-ProjetDevOps-Kaddem-Groupe3.git'
+        GITHUB_REPO = 'https://github.com/MDJ-GitHub/https://github.com/MDJ-GitHub/5ArcTIC4-G3-Kaddem.git'
         JAVA_8_HOME = '/usr/lib/jvm/java-8-openjdk-amd64'
     }
     stages {
@@ -45,7 +45,7 @@ pipeline {
         stage('2/5 | Github Checkout') {
             steps {
                 script {
-                    git branch: 'MohamedDhiaJebali', url: GITHUB_REPO
+                    git branch: 'MohamedDhiaJebali-5ArcTIC4-G3', url: GITHUB_REPO
                 }
             }
         }
