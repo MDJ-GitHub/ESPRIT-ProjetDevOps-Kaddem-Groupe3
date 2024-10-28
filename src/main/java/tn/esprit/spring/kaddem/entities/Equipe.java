@@ -20,7 +20,8 @@ public class Equipe implements Serializable{
 
     @JsonIgnore
     private Set<Etudiant> etudiants;
-    @OneToOne
+
+    @OneToOne(cascade = CascadeType.ALL)
     private DetailEquipe detailEquipe;
 
     public Equipe() {

@@ -1,5 +1,7 @@
 package tn.esprit.spring.kaddem.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.io.Serializable;
 
 import javax.persistence.*;
@@ -11,7 +13,8 @@ public class DetailEquipe implements Serializable{
     private Integer idDetailEquipe;
     private Integer salle;
     private String thematique;
-    @OneToOne(mappedBy="detailEquipe")
+    @OneToOne(mappedBy="detailEquipe", cascade = CascadeType.ALL)
+    @JsonIgnore
     private Equipe equipe;
     public DetailEquipe() {
         // TODO Auto-generated constructor stub

@@ -10,6 +10,7 @@ import tn.esprit.spring.kaddem.services.IEquipeService;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "*")
 @AllArgsConstructor
 @RequestMapping("/equipe")
 public class EquipeRestController {

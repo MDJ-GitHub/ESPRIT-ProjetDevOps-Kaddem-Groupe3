@@ -58,13 +58,13 @@ pipeline {
             steps {
                 script {
                     echo 'Dockerizing the backend of the project (SpringBoot)'
-                        docker.withRegistry('https://registry.hub.docker.com', DOCKER_HUB_CREDENTIALS) {
-                            def version = sh(script: "git rev-parse --short HEAD", returnStdout: true).trim()
-                            def dockerImage = docker.build("${DOCKER_IMAGE_BACK}:${version}")
-                            dockerImage.tag('latest')
-                            dockerImage.push("${version}")
-                            dockerImage.push('latest')
-                            docker.image("${DOCKER_IMAGE_BACK}:latest").pull()
+                    docker.withRegistry('https://registry.hub.docker.com', DOCKER_HUB_CREDENTIALS) {
+                        def version = sh(script: "git rev-parse --short HEAD", returnStdout: true).trim()
+                        def dockerImage = docker.build("${DOCKER_IMAGE_BACK}:${version}")
+                        dockerImage.tag('latest')
+                        dockerImage.push("${version}")
+                        dockerImage.push('latest')
+                        docker.image("${DOCKER_IMAGE_BACK}:latest").pull()
                         }
                     echo 'Dockerizing the frontend of the project (Angular)'
                     dir('front') {
