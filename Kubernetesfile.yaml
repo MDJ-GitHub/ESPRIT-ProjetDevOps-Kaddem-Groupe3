@@ -102,7 +102,7 @@ spec:
   - port: 8089
     name: port-8089
     targetPort: 8089
-    nodePort: 30001
+    nodePort: 30003
   type: NodePort
 
 ---
@@ -148,5 +148,5 @@ spec:
   - port: 80
     name: port-80
     targetPort: 80
-    nodePort: 30002
+    nodePort: 300024
   type: NodePort
