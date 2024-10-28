@@ -1,5 +1,3 @@
-// DevOpsProjectPipeline : Kaddem
-
 pipeline {
     agent any
     environment {
@@ -9,28 +7,42 @@ pipeline {
         DOCKER_IMAGE_BACK = 'mdjdocker/kaddem-back'
         DOCKER_IMAGE_FRONT = 'mdjdocker/kaddem-front'
         GITHUB_REPO = 'https://github.com/MDJ-GitHub/ESPRIT-ProjetDevOps-Kaddem-Groupe3.git'
+        JAVA_8_HOME = '/usr/lib/jvm/java-8-openjdk-amd64'
     }
     stages {
-        stage('1/5 | Install Builders (Maven & NodeJS)') {
+        stage('1/5 | Install Builders (Maven, NodeJS, and Java 1.8)') {
             steps {
                 script {
+                    // Check and install Maven
                     if (sh(returnStatus: true, script: 'which mvn') != 0) {
                         echo 'Maven is not installed. Proceeding with installation.'
                         sh '''
-						sudo apt update
-						sudo apt install -y maven 
-						'''
+                            sudo apt update
+                            sudo apt install -y maven 
+                        '''
                         echo 'Maven installed successfully.'
                     }
+
+                    // Check and install NodeJS and Angular CLI
                     if (sh(returnStatus: true, script: 'which nodejs') != 0) {
                         echo 'NodeJS is not installed. Proceeding with installation.'
                         sh '''
-						sudo apt update
-						curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash -
-						sudo apt install -y nodejs		
-						sudo npm install -g @angular/cli
-						'''
+                            sudo apt update
+                            curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash -
+                            sudo apt install -y nodejs
+                            sudo npm install -g @angular/cli
+                        '''
                         echo 'NodeJS installed successfully.'
+                    }
+
+                    // Check and install Java 1.8
+                    if (sh(returnStatus: true, script: 'java -version 2>&1 | grep "1.8"') != 0) {
+                        echo 'Java 1.8 is not installed. Proceeding with installation.'
+                        sh '''
+                            sudo apt update
+                            sudo apt install -y openjdk-8-jdk
+                        '''
+                        echo 'Java 1.8 installed successfully.'
                     }
                 }
             }
@@ -45,8 +57,14 @@ pipeline {
         stage('3/5 | Building Project') {
             steps {
                 script {
+                    // Set JAVA_HOME temporarily to Java 1.8 for the Maven build
+                    env.JAVA_HOME = "${JAVA_8_HOME}"
+                    env.PATH = "${JAVA_HOME}/bin:${env.PATH}"
+
                     echo 'Building the backend of the project (SpringBoot/Maven)'
+                    sh 'java -version' // Confirm Java 1.8 is used
                     sh 'mvn clean package'
+
                     echo 'Building the frontend of the project (Angular/NodeJS)'
                     dir('front') {
                         sh 'ng build --configuration production'
@@ -58,14 +76,14 @@ pipeline {
             steps {
                 script {
                     echo 'Dockerizing the backend of the project (SpringBoot)'
-                        docker.withRegistry('https://registry.hub.docker.com', DOCKER_HUB_CREDENTIALS) {
-                            def version = sh(script: "git rev-parse --short HEAD", returnStdout: true).trim()
-                            def dockerImage = docker.build("${DOCKER_IMAGE_BACK}:${version}")
-                            dockerImage.tag('latest')
-                            dockerImage.push("${version}")
-                            dockerImage.push('latest')
-                            docker.image("${DOCKER_IMAGE_BACK}:latest").pull()
-                        }
+                    docker.withRegistry('https://registry.hub.docker.com', DOCKER_HUB_CREDENTIALS) {
+                        def version = sh(script: "git rev-parse --short HEAD", returnStdout: true).trim()
+                        def dockerImage = docker.build("${DOCKER_IMAGE_BACK}:${version}")
+                        dockerImage.tag('latest')
+                        dockerImage.push("${version}")
+                        dockerImage.push('latest')
+                        docker.image("${DOCKER_IMAGE_BACK}:latest").pull()
+                    }
                     echo 'Dockerizing the frontend of the project (Angular)'
                     dir('front') {
                         docker.withRegistry('https://registry.hub.docker.com', DOCKER_HUB_CREDENTIALS) {
