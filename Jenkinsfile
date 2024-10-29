@@ -4,8 +4,8 @@ pipeline {
         DOCKER_HUB_CREDENTIALS = 'dockerHubCredentials'
         PROJECT_BACK_NAME = 'kaddem-back'
         PROJECT_FRONT_NAME = 'kaddem-front'
-        DOCKER_IMAGE_BACK = 'mdjdocker/MohamedDhiaJebali-5ArcTIC4-G3-Kaddem-back'
-        DOCKER_IMAGE_FRONT = 'mdjdocker/MohamedDhiaJebali-5ArcTIC4-G3-Kaddem-front'
+        DOCKER_IMAGE_BACK = 'mdjdocker/mohameddhiajebali-5arctic4-g3-kaddem-back'
+        DOCKER_IMAGE_FRONT = 'mdjdocker/mohameddhiajebali-5arctic4-g3-kaddem-front'
         GITHUB_REPO = 'https://github.com/MDJ-GitHub/5ArcTIC4-G3-Kaddem.git'
         JAVA_8_HOME = '/usr/lib/jvm/java-8-openjdk-amd64'
     }
