@@ -100,7 +100,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.11.0</version> <!-- Make sure this version is compatible with Java 20 -->
+                <version>3.11.0</version> <!-- Ensure compatibility with your Java version -->
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
@@ -117,7 +117,7 @@
         </repository>
         <snapshotRepository>
             <id>deploymentRepo</id>
-            <name>snapshots Nexus Repository</name>
+            <name>Snapshots Nexus Repository</name>
             <url>http://localhost:8081/repository/maven-snapshots/</url>
         </snapshotRepository>
     </distributionManagement>
