@@ -1,4 +1,0 @@
--- application_init.sql
-CREATE DATABASE IF NOT EXISTS kaddem;
-GRANT ALL PRIVILEGES ON kaddem.* TO 'root'@'%' WITH GRANT OPTION;  -- No IDENTIFIED BY required
-FLUSH PRIVILEGES;
