@@ -104,9 +104,19 @@ pipeline {
     post {
         success {
             echo 'ESPRIT DevOps Projet Kaddem Group3 pipeline completed successfully'
+            emailext (
+                subject: "${env.JOB_NAME} - Build # ${env.BUILD_NUMBER} - Successful",
+                body: "ESPRIT DevOps Projet Kaddem Group3 pipeline completed successfully",
+                to: "MohamedDhia.Jebali@esprit.tn"
+            )
         }
         failure {
             echo 'ESPRIT DevOps Projet Kaddem Group3 pipeline failed.'
+            emailext (
+                subject: "${env.JOB_NAME} - Build # ${env.BUILD_NUMBER} - Failed",
+                body: "ESPRIT DevOps Projet Kaddem Group3 pipeline failed.",
+                to: "MohamedDhia.Jebali@esprit.tn"
+            )
         }
     }
 }
