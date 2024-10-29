@@ -70,7 +70,7 @@ spec:
         - name: kaddem-vol-db
           mountPath: /var/lib/mysql
       - name: kaddem-dep-back
-        image: mdjdocker/MohamedDhiaJebali-5ArcTIC4-G3-Kaddem-back:latest
+        image: mdjdocker/mohameddhiajebali-5arctic4-g3-kaddem-back:latest
         ports:
         - containerPort: 8089
           name: cport-8089
@@ -126,7 +126,7 @@ spec:
     spec:
       containers:
       - name: kaddem-front
-        image: mdjdocker/MohamedDhiaJebali-5ArcTIC4-G3-Kaddem-front:latest
+        image: mdjdocker/mohameddhiajebali-5arctic4-g3-kaddem-front:latest
         ports:
         - containerPort: 80
           name: cport-80
