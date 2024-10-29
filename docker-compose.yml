@@ -13,6 +13,7 @@ services:
       - "3306:3306"
     volumes:
       - db:/var/lib/mysql
+    command: --default-authentication-plugin=mysql_native_password
 
   app-kaddem:
     depends_on:
@@ -23,12 +24,12 @@ services:
       - "8089:8089"
     environment:
       SPRING_APPLICATION_JSON: '{
-          "spring.datasource.url": "jdbc:mysql://mysqldb:3306/kaddem?createDatabaseIfNotExist=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false",
-          "spring.datasource.username": "root",
-          "spring.datasource.password": "root",
-          "spring.jpa.properties.hibernate.dialect": "org.hibernate.dialect.MySQL5InnoDBDialect",
-          "spring.jpa.hibernate.ddl-auto": "update"
-        }'
+              "spring.datasource.url": "jdbc:mysql://mysqldb:3306/kaddem?createDatabaseIfNotExist=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false",
+              "spring.datasource.username": "root",
+              "spring.datasource.password": "root",
+              "spring.jpa.properties.hibernate.dialect": "org.hibernate.dialect.MySQL8Dialect",
+              "spring.jpa.hibernate.ddl-auto": "update"
+            }'
     stdin_open: true
     tty: true
 
