@@ -33,7 +33,7 @@ services:
   fangular-app:
     image: yassin916/kaddem-frontend:0.0.7
     ports:
-      - "4200:80"  # Map port 80 in the container to 4200 on localhost
+      - "80:80"  # Map port 80 in the container to 4200 on localhost
     restart: always
     depends_on:
       - app-kaddem

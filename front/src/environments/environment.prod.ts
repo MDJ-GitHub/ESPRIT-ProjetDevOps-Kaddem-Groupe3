@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  apiUrl: 'http://4.206.221.104:30003/kaddem',
+  apiUrl: 'http://app-kaddem:8089/kaddem',
   appName: 'Kaddem'
 };
