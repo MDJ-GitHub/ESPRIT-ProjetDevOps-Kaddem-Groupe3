@@ -1,0 +1,54 @@
+<div class="container">
+  <h2>Gestion des Contrats</h2>
+  <button (click)="toggleAddPopup()" class="btn btn-primary mb-3">Ajouter un Contrat</button>
+
+  <div class="popup-overlay" *ngIf="addVisible">
+    <div class="popup-content">
+      <form (ngSubmit)="addOrUpdateContrat()">
+        <div class="form-group">
+          <label for="montantContrat">Montant</label>
+          <input type="number" id="montantContrat" class="form-control" required [(ngModel)]="selectedContrat.montantContrat" name="montantContrat" />
+        </div>
+
+        <div class="form-group">
+          <label for="specialite">Spécialité</label>
+          <select id="specialite" class="form-select" required [(ngModel)]="selectedContrat.specialite" name="specialite">
+            <option value="" disabled>Choisir une spécialité</option>
+            <option value="IA">IA</option>
+            <option value="RESEAUX">Réseaux</option>
+            <option value="CLOUD">Cloud</option>
+          </select>
+
+        </div>
+
+
+
+        <button type="button" class="btn btn-secondary me-2" (click)="toggleAddPopup()">Annuler</button>
+        <button type="submit" class="btn btn-primary">Appliquer</button>
+      </form>
+    </div>
+  </div>
+
+  <table class="table table-bordered table-striped mt-3">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Montant</th>
+      <th>Spécialité</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let contrat of contrats">
+      <td>{{ contrat.idContrat }}</td>
+      <td>{{ contrat.montantContrat }}</td>
+      <td>{{ contrat.specialite }}</td>
+      <td>
+        <button class="btn btn-warning" (click)="modifyF(contrat)">Modifier</button>
+        <button class="btn btn-danger" (click)="contrat.idContrat ? removeContrat(contrat.idContrat) : null">Supprimer</button>
+      </td>
+    </tr>
+    </tbody>
+    >
+  </table>
+</div>

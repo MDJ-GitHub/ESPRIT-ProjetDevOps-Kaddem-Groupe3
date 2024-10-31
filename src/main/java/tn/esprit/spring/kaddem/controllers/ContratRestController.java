@@ -11,7 +11,7 @@ import tn.esprit.spring.kaddem.services.IContratService;
 
 import java.util.Date;
 import java.util.List;
-
+@CrossOrigin
 @RestController
 @AllArgsConstructor
 @RequestMapping("/contrat")
