@@ -9,6 +9,7 @@ import tn.esprit.spring.kaddem.services.ReclamationService;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/api/reclamations")
 public class ReclamationController {
 
