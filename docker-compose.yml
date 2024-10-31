@@ -35,7 +35,7 @@ services:
   fangular-app:
     image: salma508/kaddem-frontend:latest
     ports:
-      - "80:80"  
+      - "5000:5000"  
     restart: always
     depends_on:
       - app-kaddem
