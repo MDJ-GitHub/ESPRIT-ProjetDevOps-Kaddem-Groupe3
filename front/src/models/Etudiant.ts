@@ -1,9 +1,9 @@
-import { Equipe } from './Equipe'; 
+import { Equipe } from './Equipe';
 
 export class Etudiant {
     idEtudiant: number;
-    nomE: string; 
-    prenomE: string; 
+    nomE: string;
+    prenomE: string;
     equipes: Equipe[];
 
     constructor(
@@ -11,7 +11,8 @@ export class Etudiant {
         nomE: string,
         prenomE: string,
         equipes: Equipe[] = [],
-    ) {
+    )
+    {
         this.idEtudiant = idEtudiant;
         this.nomE = nomE;
         this.prenomE = prenomE;

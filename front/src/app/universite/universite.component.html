@@ -1,55 +1,81 @@
 <div class="layout-container" style="display: flex; min-height: 100vh;">
-    <!-- Sidebar -->
-    <div class="sidebar bg-dark shadow-lg" 
-    style="
-      width: 250px; 
-      padding: 1rem; 
-      position: fixed; 
-      top: 0; 
-      left: 0; 
-      height: 100vh;
-      overflow-y: auto;">
-   <br><br><br>
-   <h3 style="color: white;">Actions</h3>
-   <ul style="list-style-type: none; padding: 0;">
-       <li style="margin-bottom: 0.5rem;">
-           <a href="#" class="btn btn-outline-light navbar-dark" style="text-decoration: none;">➕ Ajouter Universite</a>
-       </li>
-   </ul>
-</div>
-    <div class="main-content" style="
-    flex-grow: 1;
-    padding: 2rem;
-    position: relative;
-    overflow: hidden;
-    margin-left: 250px; /* Adjust to the sidebar width */
-  ">
-        <div style="
-      position: absolute;
+  <!-- Sidebar -->
+  <div class="sidebar bg-dark shadow-lg"
+       style="
+      width: 250px;
+      padding: 1rem;
+      position: fixed;
       top: 0;
       left: 0;
-      width: 100%;
-      height: 100%;
-      background-image: url('../assets/background.jpg');
-      background-size: cover;
-      background-attachment: fixed;
-      background-repeat: no-repeat;
-      opacity: 0.35; /* Adjust this value for opacity */
-      z-index: 1;
-    "></div>
-        <div style="position: relative; z-index: 2;">
-            <br><br>
+      height: 100vh;
+      overflow-y: auto;">
+    <br><br><br>
+    <h3 style="color: white;">Actions</h3>
+    <ul style="list-style-type: none; padding: 0;">
+      <li style="margin-bottom: 0.5rem;">
+        <a href="http://localhost:4200/universite" class="btn btn-outline-light navbar-dark" style="text-decoration: none;">List Universties</a>
+      </li>
+    </ul>
+  </div>
 
+  <div class="main-content" style="flex-grow: 1; padding: 2rem; position: relative; overflow: hidden; margin-left: 250px;">
+    <div style="display: flex; align-items: center; margin-top: 1rem;">
+      <form (submit)="addUniversite(selectedUniversite)" style="margin-right: 1rem; display: flex; align-items: center;">
+        <input [(ngModel)]="selectedUniversite.nomUniv" name="universityName" placeholder="University Name" required style="padding: 0.5rem; margin-right: 0.5rem;">
+        <button type="submit" class="btn btn-primary">Add University</button>
+      </form>
+      <h2 class="title">Universities List</h2>
+    </div>
 
-
-
-            <!-- Content -->
-            <h1>Main Content Area</h1>
-            <p>This is where the main content of your page will be displayed.</p>
-            
+    <div class="universite-cards">
+      <div *ngFor="let universite of universites" class="card">
+        <svg
+          id="Layer_1"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 512 512"
+          xml:space="preserve"
+          fill="#cbe6ff"
+          width="120"
+          class="App-logo"
+        >
+        <g>
+          <g>
+            <path d="M11.905,246.817H0.27v30.385h11.636v87.014H0.27v30.385h11.636v117.398h142.473V246.817H11.905z M73.56,453.134H43.175 v-30.051H73.56V453.134z M73.56,335.734H43.175v-30.051H73.56V335.734z M123.11,453.134H92.725v-30.051h30.385V453.134z M123.11,335.734H92.725v-30.051h30.385V335.734z"></path>
+          </g>
+        </g>
+          <g>
+          <g>
+            <path d="M357.621,172.23l-30.385-22.362l-56.043-41.246V84l98.467-36.386L240.806,0v108.623l-56.043,41.246l-30.385,22.362 l-13.786,10.146l13.786,18.204l4.559,6.019l25.826-18.904V512h6.178h130.116h6.178V187.696l25.826,18.903l4.559-6.019 l13.786-18.204L357.621,172.23z M246.417,453.134h-30.385v-30.051h30.385V453.134z M246.417,335.734h-30.385v-30.051h30.385 V335.734z M246.417,218.335h-30.385v-30.051h30.385V218.335z M295.967,453.134h-30.385v-30.051h30.385V453.134z M295.967,335.734 h-30.385v-30.051h30.385V335.734z M295.967,218.335h-30.385v-30.051h30.385V218.335z"></path>
+          </g>
+        </g>
+          <g>
+          <g>
+            <path d="M500.094,364.216v-87.014h11.635v-30.385h-11.637H357.621v265.182h142.473V394.601h11.636v-30.385H500.094z M419.274,453.134h-30.385v-30.051h30.385V453.134z M419.274,335.734h-30.385v-30.051h30.385V335.734z M468.824,453.134h-30.385 v-30.051h30.385V453.134z M468.824,335.734h-30.385v-30.051h30.385V335.734z"></path>
+          </g>
+        </g>
+      </svg>
+        <div *ngIf="isModalOpen" class="modal">
+          <div class="modal-content">
+            <span class="close" (click)="toggleModal(false)">&times;</span>
+            <h2>Update University</h2>
+            <form (submit)="updateUniversite()" style="margin-right: 1rem; display: flex; flex-direction: column;">
+              <input [(ngModel)]="selectedUniversite.nomUniv" name="universityName" placeholder="University Name" required style="padding: 0.5rem; margin-bottom: 0.5rem;">
+              <button type="submit">Update</button>
+              <button type="button" (click)="toggleModal(false)">Cancel</button>
+            </form>
+          </div>
         </div>
 
+        <!-- Trigger for Update -->
 
-
-
+        <div class="header">University {{ universite.nomUniv }}</div>
+        <div style="display: flex; align-items: center; margin-top: 1rem;">
+          <button class="App-button1" (click)="openUpdateModal(universite)">Update</button>
+          <button class="App-button" (click)="deleteUniversite(universite.idUniv!)" style="margin-right: 0.5rem;">Delete</button>
+        </div>
+      </div>
     </div>
+
+
+
+  </div>
