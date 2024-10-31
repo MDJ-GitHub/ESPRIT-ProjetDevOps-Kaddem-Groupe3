@@ -8,48 +8,47 @@ pipeline {
 
     environment {
         GITHUB_REPO = 'https://github.com/MDJ-GitHub/5ArcTIC4-G3-Kaddem.git'
-        SONARQUBE_SERVER = 'sonarqube'  // Ensure this matches your Jenkins configuration
-        SONAR_TOKEN = credentials('Secret text')  // Replace with the exact ID of your credential
-       
+        // SONARQUBE_SERVER = 'sonarqube'  // Uncomment if SonarQube is used and configured in Jenkins
+        // SONAR_TOKEN = credentials('Secret text')  // Replace with the exact ID of your credential if needed
     }
 
     stages {
         stage('GitHub Checkout') {
             steps {
                 script {
-                    git branch: 'HoussemSouid-5arctic4-G3', url: GITHUB_REPO
+                    git branch: 'HoussemSouid-5ARCTIC4-G3', url: GITHUB_REPO
                 }
             }
         }
        
-
-        stage('Clean and package') {
+        stage('Clean and Package') {
             steps {
                 sh 'mvn clean package'
-                 dir('front') {
-                        sh 'sudo npm install'
-                        sh 'ng build --configuration production'
-                    }
+                dir('front') {
+                    sh 'sudo npm install'
+                    sh 'ng build --configuration production'
+                }
             }
         }
 
         stage('Docker') {
             steps {
-                sh 'sudo docker build -t houssemsouid/houssemsouid-5arctic4-g3-kaddem:latest'
-                sh 'sudo docker push houssemsouid/houssemsouid-5arctic4-g3-kaddem:latest'
-                dir('front') {
-                      sh 'sudo docker build -t houssemsouid/houssemsouid-5arctic4-g3-kaddem-angular:latest'
-                      sh 'sudo docker push houssemsouid/houssemsouid-5arctic4-g3-kaddem-angular:latest'
-                      }
+                withCredentials([usernamePassword(credentialsId: 'Dockercredentials', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                    sh 'echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin'
+                    sh 'sudo docker build -t houssemsouid/houssemsouid-5arctic4-g3-kaddem:latest .'
+                    sh 'sudo docker push houssemsouid/houssemsouid-5arctic4-g3-kaddem:latest'
+                    dir('front') {
+                        sh 'sudo docker build -t houssemsouid/houssemsouid-5arctic4-g3-kaddem-angular:latest .'
+                        sh 'sudo docker push houssemsouid/houssemsouid-5arctic4-g3-kaddem-angular:latest'
+                    }
+                }
             }
         }
 
-          stage('Docker-compose') {
+        stage('Docker Compose') {
             steps {
-             sh 'docker-compose app -d'
-         }
+                sh 'docker-compose up -d'
+            }
         }
-
-
-}
+    }
 }
