@@ -34,7 +34,7 @@ services:
     build:
       context: ./front  # path of the front project
     ports:
-      - "3000:80"  # Maps port 80 inside the container to port 3000 on localhost
+      - "5000:80"  # Maps port 80 inside the container to port 5000 on localhost
     depends_on:
       - app-kaddem
 

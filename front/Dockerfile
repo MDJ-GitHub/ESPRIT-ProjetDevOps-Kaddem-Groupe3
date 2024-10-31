@@ -9,3 +9,6 @@ RUN npm run build --prod
 # Stage 2: Serve the app with Nginx
 FROM nginx:1.23
 COPY --from=build /app/dist/kaddem /usr/share/nginx/html
+
+# Optionally expose port 5000
+EXPOSE 5000
