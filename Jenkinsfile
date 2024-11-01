@@ -31,10 +31,15 @@ pipeline {
             }
         }
       
-      stage('TEST (jaccoco reposrt)') {
+      stage('Run Tests') {
+            steps {
+                sh 'mvn test'
+            }
+        }
+
+        stage('Generate JaCoCo Report') {
             steps {
                 echo 'Generating JaCoCo report'
-                // Exécuter Maven pour générer le rapport JaCoCo
                 sh 'mvn jacoco:report'
             }
         }
