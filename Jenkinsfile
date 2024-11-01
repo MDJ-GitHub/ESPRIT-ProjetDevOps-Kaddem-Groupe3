@@ -31,19 +31,14 @@ pipeline {
             }
         }
       
-
-        stage('Deploy to Nexus') {
+      stage('TEST (jaccoco reposrt)') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'nexus_credentials', usernameVariable: 'NEXUS_USERNAME', passwordVariable: 'NEXUS_PASSWORD')]) {
-                    sh """
-                        mvn deploy -DskipTests=true \
-                        -Dusername=${NEXUS_USERNAME} \
-                        -Dpassword=${NEXUS_PASSWORD}
-                    """
-                }
+                echo 'Generating JaCoCo report'
+                // Exécuter Maven pour générer le rapport JaCoCo
+                sh 'mvn jacoco:report'
             }
         }
-       stage('SonarQube Analysis') {
+      stage('SonarQube Analysis') {
                   steps {
                       withSonarQubeEnv(SONARQUBE_SERVER) {  // Ensure this matches your Jenkins' SonarQube configuration
                           sh """
@@ -58,8 +53,20 @@ pipeline {
                   }
               }
       
+        stage('Deploy to Nexus') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'nexus_credentials', usernameVariable: 'NEXUS_USERNAME', passwordVariable: 'NEXUS_PASSWORD')]) {
+                    sh """
+                        mvn deploy -DskipTests=true \
+                        -Dusername=${NEXUS_USERNAME} \
+                        -Dpassword=${NEXUS_PASSWORD}
+                    """
+                }
+            }
+        }
+       
 
-        stage('Build Docker Image') {
+        stage('Build Docker Image BACKEND') {
             steps {
                 script {
                     // Build the Docker image
@@ -68,14 +75,14 @@ pipeline {
             }
         }
 
-        stage('Push Docker Image') {
+        stage('Push Docker Image BACKEND') {
             steps {
                 script {
                     // Log in to Docker Hub
                     withCredentials([usernamePassword(credentialsId: 'Dockercredentials', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
                         sh 'echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin'
                         // Push the Docker image to Docker Hub
-                        sh "docker push ariembenjaballah/mariembenjaballah-5arctic4-g3-kaddem-back:latest"
+                        sh "docker push mariembenjaballah/mariembenjaballah-5arctic4-g3-kaddem-back:latest"
                     }
                 }
             }
