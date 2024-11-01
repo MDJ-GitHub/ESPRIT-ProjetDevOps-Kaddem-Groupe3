@@ -98,12 +98,21 @@ pipeline {
         }
     }
 
-    post {
-        success {
-            echo 'Deployment successful!'
+  post {
+    success {
+        script {
+            slackSend(
+                channel: '#jenkinsnotif', 
+                message: "Le build a réussi : ${env.JOB_NAME} #${env.BUILD_NUMBER} "
+            )
         }
-        failure {
-            echo 'Deployment failed.'
+    }
+    failure {
+        script {
+            slackSend(
+                channel: '#jenkinsnotif', 
+                message: "Le build a échoué : ${env.JOB_NAME} #${env.BUILD_NUMBER}."
+            )
         }
     }
 }
