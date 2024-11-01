@@ -92,7 +92,7 @@ pipeline {
             steps {
                 script {
                     // Use Docker Compose to deploy the application
-                    sh 'docker-compose up -d'
+                    sh 'docker compose up -d'
                 }
             }
         }
