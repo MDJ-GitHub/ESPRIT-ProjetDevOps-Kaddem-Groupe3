@@ -1,0 +1,33 @@
+version: "3.8"
+
+services:
+  db:
+    image: mysql:8.0
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=""
+      - MYSQL_DATABASE=kaddemdb
+    ports:
+      - "3306:3306"
+    volumes:
+      - db:/var/lib/mysql
+
+
+  app:
+    image: chebliaymen/AymenCHEBLI-5Arctic4-G3-kaddem:latest
+    ports:
+      - "8089:8089"  # Map host port 8089 to container port 8089
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://localhost:3306/kaddem\db?&createDatabaseIfNotExist=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC  # Database connection URL
+      - SPRING_DATASOURCE_USERNAME=root  # Database username
+      - SPRING_DATASOURCE_PASSWORD=  # Database password
+      - SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT=org.hibernate.dialect.MySQL8Dialect  # Hibernate dialect for MySQL
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update  # DDL auto update strategy
+    restart: unless-stopped  # Restart policy for the container
+    stdin_open: true  # Keep standard input open to run commands
+    tty: true  # Simulate a terminal interface
+    depends_on:
+      - db  # Ensure the app starts after the db service
+
+volumes:
+  db:  # Define a volume for the database
