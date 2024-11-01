@@ -13,7 +13,6 @@ import java.util.Set;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/universite")
-@CrossOrigin
 public class UniversiteRestController {
 	@Autowired
 	IUniversiteService universiteService;
