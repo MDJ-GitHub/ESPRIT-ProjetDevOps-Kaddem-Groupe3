@@ -56,6 +56,7 @@ pipeline {
 
                     // Push the Docker image to Docker Hub
                     sh 'docker push chebliaymen/AymenCHEBLI-5Arctic4-G3-kaddem:latest'
+                }
             }
         }
 
