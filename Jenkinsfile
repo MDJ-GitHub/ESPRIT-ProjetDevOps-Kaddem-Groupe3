@@ -44,7 +44,7 @@ pipeline {
         stage('DOCKER BUILD') {
             steps {
                 // Build a Docker Image
-                sh 'docker build -t  chebliaymen/AymenCHEBLI-5Arctic4-G3-kaddem:latest .'
+                sh 'docker build -t  chebliaymen/aymenchebli-5arctic4-g3-kaddem:latest .'
             }
         }
 
@@ -55,7 +55,7 @@ pipeline {
                     sh "echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin"
 
                     // Push the Docker image to Docker Hub
-                    sh 'docker push chebliaymen/AymenCHEBLI-5Arctic4-G3-kaddem:latest'
+                    sh 'docker push chebliaymen/aymenchebli-5arctic4-g3-kaddem:latest'
                 }
             }
         }

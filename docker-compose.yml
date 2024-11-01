@@ -14,7 +14,7 @@ services:
 
 
   app:
-    image: chebliaymen/AymenCHEBLI-5Arctic4-G3-kaddem:latest
+    image: chebliaymen/aymenchebli-5arctic4-g3-kaddem:latest
     ports:
       - "8089:8089"  # Map host port 8089 to container port 8089
     environment:
